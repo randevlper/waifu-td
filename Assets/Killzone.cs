@@ -19,7 +19,7 @@ public class Killzone : MonoBehaviour {
 			IDamageable damageable = item.gameObject.GetComponent<IDamageable>();
 			if(damageable != null)
 			{
-				damageable.Damageable(new HitData(damage,gameObject));
+				damageable.Damage(new HitData(damage,gameObject));
 			}
 		}
 	}

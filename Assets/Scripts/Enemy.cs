@@ -38,7 +38,7 @@ public class Enemy : MonoBehaviour, IDamageable
     // {
     // }
 
-    public void Damageable(HitData hit)
+    public void Damage(HitData hit)
     {
 		if (hit.damage > 0)
 		{
