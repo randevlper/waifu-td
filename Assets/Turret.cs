@@ -42,13 +42,14 @@ public class Turret : MonoBehaviour
 	{
 		foreach(Collider item in GetOverlappedColliders())
 		{
-			//Debug.Log(item);
+			//Debug.Log(❤);
 			IDamageable damageble = item.GetComponent<IDamageable>();
 			if(damageble != null)
 			{
 				attackingEnemy = item.GetComponent<Enemy>();
 				damageble.Damage(new HitData(damage,gameObject));
 				Track();
+				return;
 			}
 		}
 	}

@@ -6,8 +6,13 @@ public class PlayerBase : MonoBehaviour
 {
     public BoxCollider col;
     public LayerMask mask;
-	public float health;
+	public int health;
+	public UIHealth uiHealth;
 
+	private void Start()
+	{
+		uiHealth.SetHealth(health);
+	}
     private void Update()
     {
 		CheckCollision();
@@ -21,6 +26,15 @@ public class PlayerBase : MonoBehaviour
             if (other != null)
             {
                 other.gameObject.SetActive(false);
+				health--;
+				uiHealth.SetHealth(health);
+				if(health <= 0)
+				{
+					Time.timeScale = 0;
+					GameManager.current.isPlayerDead = true;
+					UIPauseMenu.current.TogglePauseMenu();
+					UIPauseMenu.current.continueButton.SetActive(false);
+				}
             }
         }
     }
