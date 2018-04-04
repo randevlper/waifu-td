@@ -59,7 +59,6 @@ public class Enemy : MonoBehaviour, IDamageable
 	public void Setup(Vector3 pos, Vector3 dest, float hel)
 	{
 		transform.position = pos;
-		Destination = dest;
 		Health = hel;
 	}
 }

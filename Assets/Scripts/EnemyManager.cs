@@ -82,12 +82,13 @@ public class EnemyManager : MonoBehaviour
         Enemy spawnedEnemy = GetNextEnemy();
         if (spawnedEnemy != null)
         {
+            spawnedEnemy.Setup(
+                enemySpawn.transform.position,
+                playerBase.transform.position,
+                _enemiesHealth);
             spawnedEnemy.gameObject.SetActive(true);
+            spawnedEnemy.Destination = playerBase.transform.position;
         }
-        spawnedEnemy.Setup(
-            enemySpawn.transform.position,
-            playerBase.transform.position,
-            _enemiesHealth);
     }
 
     private Enemy GetNextEnemy()
