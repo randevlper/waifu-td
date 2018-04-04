@@ -23,11 +23,14 @@ public class EnemyManager : MonoBehaviour
     bool waiting;
     public float waitTime;
 
+    public UIWave uiWave;
+
     private void Start()
     {
         _enemies = new List<Enemy>();
         _enemiesHealth = GameManager.current.waves[0].enemyHealth;
         _enemiesToSpawn = GameManager.current.waves[0].countEnemies;
+        uiWave.SetWave(_waveNum + 1);
     }
 
     private void Update()
@@ -58,9 +61,20 @@ public class EnemyManager : MonoBehaviour
     private void WaitToStartNextWave()
     {
         _waveNum++;
-        _enemiesHealth = GameManager.current.waves[_waveNum].enemyHealth;
-        _enemiesToSpawn = GameManager.current.waves[_waveNum].countEnemies;
-        waiting = false;
+
+        if (_waveNum < GameManager.current.waves.Length)
+        {
+            uiWave.SetWave(_waveNum + 1);
+            _enemiesHealth = GameManager.current.waves[_waveNum].enemyHealth;
+            _enemiesToSpawn = GameManager.current.waves[_waveNum].countEnemies;
+            waiting = false;
+        }
+        else
+        {
+            UIPauseMenu.current.TogglePauseMenu();
+            UIPauseMenu.current.continueButton.SetActive(false);
+            //Endgame
+        }
     }
 
     private void Spawn()

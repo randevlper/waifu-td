@@ -23,7 +23,7 @@ public class UIPauseMenu : MonoBehaviour
         if (gameObject.activeInHierarchy && !GameManager.current.isPlayerDead)
         {
             gameObject.SetActive(false);
-            Time.timeScale = GameManager.current.timeScale;
+            Time.timeScale = GameManager.current.TimeScale;
         }
         else
         {

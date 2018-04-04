@@ -33,10 +33,21 @@ public class Player : MonoBehaviour
         {
             UIPauseMenu.current.TogglePauseMenu();
         }
+
+        if(Input.GetKeyDown(KeyCode.LeftBracket))
+        {
+            GameManager.current.TimeScale -= 1f;
+        }
+        if(Input.GetKeyDown(KeyCode.RightBracket))
+        {
+            GameManager.current.TimeScale += 1f;
+        }
     }
 
     void SpawnTower(Vector3 pos)
     {
         Instantiate(towerPrefab, pos, Quaternion.identity);
     }
+
+
 }
