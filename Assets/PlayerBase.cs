@@ -8,6 +8,7 @@ public class PlayerBase : MonoBehaviour
     public LayerMask mask;
 	public int health;
 	public UIHealth uiHealth;
+	public UIPauseMenu uiPauseMenu;
 
 	private void Start()
 	{
@@ -32,8 +33,8 @@ public class PlayerBase : MonoBehaviour
 				{
 					Time.timeScale = 0;
 					GameManager.current.isPlayerDead = true;
-					UIPauseMenu.current.TogglePauseMenu();
-					UIPauseMenu.current.continueButton.SetActive(false);
+					uiPauseMenu.TogglePauseMenu();
+					uiPauseMenu.continueButton.SetActive(false);
 				}
             }
         }

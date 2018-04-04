@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     public Camera currentCamera;
     public GameObject towerPrefab;
     public GameObject pauseMenu;
+    public LayerMask mask;
 
     private void Start()
     {
@@ -22,7 +23,7 @@ public class Player : MonoBehaviour
         {
             Ray ray = currentCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray, out hit, float.MaxValue,mask))
             {
                 SpawnTower(hit.point);
             }

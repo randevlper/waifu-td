@@ -6,7 +6,7 @@ public class UIPauseMenu : MonoBehaviour
 {
     static public UIPauseMenu current;
 	public GameObject continueButton;
-    private void Start()
+    private void Awake()
     {
         if (current == null)
         {

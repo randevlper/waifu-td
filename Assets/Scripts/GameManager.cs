@@ -6,8 +6,9 @@ using UnityEngine.SceneManagement;
 [System.Serializable]
 public struct Wave
 {
-	public float countEnemies;
+	public int countEnemies;
 	public float enemyHealth;
+	public float spawnrate;
 }
 
 public class GameManager : MonoBehaviour {
@@ -21,7 +22,9 @@ public class GameManager : MonoBehaviour {
 
 	public AnimationCurve enemyHealthOverTime;
 
-	private void Start()
+	public Wave[] waves;
+
+	private void Awake()
 	{
 		if(current == null)
 		{

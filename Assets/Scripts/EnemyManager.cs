@@ -17,21 +17,50 @@ public class EnemyManager : MonoBehaviour
     public Transform playerBase;
     public float timeToSpawnEnemy;
     public GameObject enemyPrefab;
-
+    int _waveNum = 0;
+    int _enemiesToSpawn;
+    float _enemiesHealth;
+    bool waiting;
+    public float waitTime;
 
     private void Start()
     {
         _enemies = new List<Enemy>();
+        _enemiesHealth = GameManager.current.waves[0].enemyHealth;
+        _enemiesToSpawn = GameManager.current.waves[0].countEnemies;
     }
 
     private void Update()
     {
         _enemyTimer -= Time.deltaTime;
-        if (_enemyTimer <= 0)
+        Wave();
+    }
+
+    private void Wave()
+    {
+        if (_enemiesToSpawn > 0)
         {
-            Spawn();
-            _enemyTimer = timeToSpawnEnemy;
+            if (_enemyTimer <= 0)
+            {
+                Spawn();
+                _enemyTimer = timeToSpawnEnemy;
+                _enemiesToSpawn--;
+            }
         }
+
+        if (IsAllDead() && _enemiesToSpawn <= 0 && !waiting)
+        {
+            waiting = true;
+            Invoke("WaitToStartNextWave", waitTime);
+        }
+    }
+
+    private void WaitToStartNextWave()
+    {
+        _waveNum++;
+        _enemiesHealth = GameManager.current.waves[_waveNum].enemyHealth;
+        _enemiesToSpawn = GameManager.current.waves[_waveNum].countEnemies;
+        waiting = false;
     }
 
     private void Spawn()
@@ -39,12 +68,12 @@ public class EnemyManager : MonoBehaviour
         Enemy spawnedEnemy = GetNextEnemy();
         if (spawnedEnemy != null)
         {
-			spawnedEnemy.gameObject.SetActive(true);
+            spawnedEnemy.gameObject.SetActive(true);
         }
-		spawnedEnemy.Setup(
+        spawnedEnemy.Setup(
             enemySpawn.transform.position,
             playerBase.transform.position,
-            spawnedEnemy.maxHealth);
+            _enemiesHealth);
     }
 
     private Enemy GetNextEnemy()
@@ -53,18 +82,30 @@ public class EnemyManager : MonoBehaviour
 
         for (int i = 0; i < _enemies.Count; ++i)
         {
-			if (!_enemies[i].gameObject.activeInHierarchy)
-			{
-				return _enemies[i];
-			}
+            if (!_enemies[i].gameObject.activeInHierarchy)
+            {
+                return _enemies[i];
+            }
         }
 
-		retval = Instantiate(
-			enemyPrefab,
-			enemySpawn.transform.position,
-			Quaternion.identity, transform).GetComponent<Enemy>();
-			_enemies.Add(retval);
+        retval = Instantiate(
+            enemyPrefab,
+            enemySpawn.transform.position,
+            Quaternion.identity, transform).GetComponent<Enemy>();
+        _enemies.Add(retval);
 
-		return retval;
+        return retval;
+    }
+
+    private bool IsAllDead()
+    {
+        for (int i = 0; i < _enemies.Count; i++)
+        {
+            if (_enemies[i].gameObject.activeInHierarchy)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }
